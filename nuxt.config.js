@@ -34,7 +34,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@pi0/nuxt-cache'
+    // '@pi0/nuxt-cache'
   ],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
@@ -57,5 +57,7 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  render: {
+    etag: false
+  },
 }

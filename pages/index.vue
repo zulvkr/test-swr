@@ -10,10 +10,9 @@
           Welcome to the Vuetify + Nuxt.js template
         </v-card-title>
         <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
+          <p v-if="$fetchState.pending">pending</p>
+          <p v-else>
+            {{ data }}
           </p>
           <p>
             For more information on Vuetify, check out the
@@ -82,7 +81,23 @@
 
 <script>
 export default {
-  cache: true,
   name: 'IndexPage',
+  data() {
+    return {
+      data: {},
+    }
+  },
+  asyncData(context) {
+    if (process.server) {
+      const { res } = context
+      res.setHeader('Cache-Control', 's-maxage=1, stale-while-revalidate')
+    }
+  },
+  async fetch() {
+    const fetchRes = await fetch(
+      'https://jsonplaceholder.typicode.com/todos/1'
+    ).then((response) => response.json())
+    this.data = fetchRes
+  },
 }
 </script>
